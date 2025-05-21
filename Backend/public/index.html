@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>Client Socket.IO</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    #resposta img {
+      max-width: 200px;
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Controlador</h1>
+  <button onclick="enviar('encendre')">Encendre</button>
+  <button onclick="enviar('apagar')">Apagar</button>
+  <button onclick="enviar('imatge')">Demana Imatge</button>
+  <div id="resposta"></div>
+
+  <script>
+    const socket = io();
+
+    function enviar(comanda) {
+      socket.emit('missatge', comanda);
+    }
+
+    socket.on('resposta', (data) => {
+      const cont = document.getElementById('resposta');
+      
+      if (typeof data === 'string' && data.startsWith('/Imatges/')) {
+        cont.innerHTML = `<p>Imatge aleatòria rebuda:</p><img src="${data}" alt="Imatge aleatòria">`;
+      } else {
+        cont.textContent = 'Resposta del servidor: ' + data;
+      }
+    });
+  </script>
+</body>
+</html>
