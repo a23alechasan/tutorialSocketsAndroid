@@ -31,24 +31,24 @@ io.on('connection', (socket) => {
     console.log('Rebut:', data);
 
     if (data === 'encendre') {
-      socket.emit('resposta', '1');
+      io.emit('resposta', '1');
     } 
     else if (data === 'apagar') {
-      socket.emit('resposta', '0');
+      io.emit('resposta', '0');
     } 
     else if (data === 'imatge') {
       if (imatges.length === 0) {
-        socket.emit('resposta', 'No hi ha imatges disponibles');
+        io.emit('resposta', 'No hi ha imatges disponibles');
       } else {
         const idx = Math.floor(Math.random() * imatges.length);
         const nomFitxer = imatges[idx];
         const url = `/Imatges/${nomFitxer}`;
-        socket.emit('resposta', url);
+        io.emit('resposta', url);
         console.log(`Imatge enviada: ${nomFitxer}`);
       }
     }
     else {
-      socket.emit('resposta', 'Comanda no reconeguda');
+      io.emit('resposta', 'Comanda no reconeguda');
     }
   });
 
